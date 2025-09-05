@@ -1,0 +1,5 @@
+
+import React,{useState} from 'react'; import api from '../api'; import { useNavigate, useSearchParams } from 'react-router-dom';
+export default function Register({onLogin}){ const [name,setName]=useState(''); const [email,setEmail]=useState(''); const [pw,setPw]=useState(''); const nav=useNavigate(); const [sp]=useSearchParams(); const ref=sp.get('ref')||undefined;
+ const submit=async e=>{ e.preventDefault(); const r=await api.post('/auth/register',{ name, email, password:pw, referredBy:ref }); localStorage.setItem('token', r.data.token); localStorage.setItem('user', JSON.stringify(r.data.user)); onLogin?.(r.data.user); nav('/'); };
+ return (<form className="card" onSubmit={submit}><h2>Register</h2><input className="input" placeholder="Name" value={name} onChange={e=>setName(e.target.value)}/><br/><input className="input" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)}/><br/><input className="input" placeholder="Password" type="password" value={pw} onChange={e=>setPw(e.target.value)}/><br/><button className="btn">Register</button></form>); }

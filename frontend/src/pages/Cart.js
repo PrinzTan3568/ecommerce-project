@@ -1,0 +1,3 @@
+
+import React,{useState} from 'react'; export default function Cart(){ const [cart,setCart]=useState(()=>JSON.parse(localStorage.getItem('cart')||'[]')); const subtotal = cart.reduce((s,i)=> s+i.price*i.qty,0).toFixed(2); const remove=(i)=>{ const c=[...cart]; c.splice(i,1); setCart(c); localStorage.setItem('cart', JSON.stringify(c)); };
+ return (<div className="card"><h2>Cart</h2>{cart.length===0? <p>No items.</p>: <ul>{cart.map((it,idx)=>(<li key={idx}>{it.name} x {it.qty} - ${it.price*it.qty} <button onClick={()=>remove(idx)}>Remove</button></li>))}</ul>}<div>Subtotal: ${subtotal}</div></div>); }
